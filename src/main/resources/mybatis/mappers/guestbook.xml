@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GuestBookXml">
+  
+  <!-- 쿼리문 작성  -->
+  <select id="selectList" resultType="guestbooklist">
+    select  no, 
+            name, 
+            password, 
+            content, 
+            reg_date as regDate
+      from  GUESTBOOK
+    order by reg_date desc
+  </select>
+  
+   <insert id="insert" parameterType="com.javaex.vo.GuestbookVo">
+    <selectKey keyProperty="no" resultType="int" order="BEFORE">
+    			select seq_guestbook_no.nextval from dual
+    </selectKey>
+    <![CDATA[insert into guestbook values (#{no }, 
+                               	  #{name },
+                               	  #{password },  
+                                  #{content },
+                                  SYSDATE)
+	]]>
+  </insert>
+
+ <delete id="delete" parameterType="int">
+    delete from guestbook where no = #{no}
+ </delete>
+  
+</mapper>
